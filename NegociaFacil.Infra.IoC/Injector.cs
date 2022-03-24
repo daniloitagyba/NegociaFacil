@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NegociaFacil.Application.Options.Jwt;
 using NegociaFacil.Application.Services;
+using NegociaFacil.Application.Services.Abstractions;
 using NegociaFacil.Domain.Shared.Notifications;
 using NegociaFacil.Infra.Data.DBContext;
 using NegociaFacil.Infra.Data.IdentityAuth;
