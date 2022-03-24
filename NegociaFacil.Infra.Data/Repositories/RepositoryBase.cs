@@ -25,14 +25,14 @@ namespace NegociaFacil.Infra.Data.Repositories
                                  .ToListAsync();
         }
 
-        public virtual async Task<TEntity> GetByIdAsync(int id)
+        public virtual async Task<TEntity> FindByIdAsync(Guid id)
         {
             return await _context.Set<TEntity>().FindAsync(id);
         }
 
-        public virtual void Add(TEntity entity)
+        public virtual async Task AddAsync(TEntity entity)
         {
-            _context.Set<TEntity>().Add(entity);
+            await _context.Set<TEntity>().AddAsync(entity);
         }
 
         public virtual void Update(TEntity entity)
@@ -40,14 +40,14 @@ namespace NegociaFacil.Infra.Data.Repositories
             _context.Set<TEntity>().Update(entity);
         }
 
-        public virtual void Remove(TEntity payment)
+        public virtual void Remove(TEntity entity)
         {
-            _context.Set<TEntity>().Remove(payment);
+            _context.Set<TEntity>().Remove(entity);
         }
 
-        public void SaveChanges()
+        public async Task SaveChangesAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }
