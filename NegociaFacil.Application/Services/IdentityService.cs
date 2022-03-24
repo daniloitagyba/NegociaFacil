@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using NegociaFacil.Application.Models.Login;
+using NegociaFacil.Application.Models.User;
 using NegociaFacil.Application.Options.Jwt;
 using NegociaFacil.Domain.Shared.Messages;
 using NegociaFacil.Domain.Shared.Notifications;
@@ -13,7 +13,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NegociaFacil.Application.Services
+namespace NegociaFacil.Application.Services.Abstractions
 {
     public class IdentityService : IIdentityService
     {
@@ -30,7 +30,7 @@ namespace NegociaFacil.Application.Services
             _jwtOptions = jwtOptions.Value;
         }
 
-        public async Task<LoginResponseModel> Login(LoginModel loginModel)
+        public async Task<LoginViewModel> Login(LoginRequestModel loginModel)
         {
             var user = await _userManager.FindByNameAsync(loginModel.UserName);
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginModel.Password))
@@ -50,7 +50,7 @@ namespace NegociaFacil.Application.Services
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SecretKey));
             var token = GetJwtSecurityToken(authClaims, authSigningKey);
 
-            return new LoginResponseModel
+            return new LoginViewModel
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Expiration = token.ValidTo
@@ -77,7 +77,7 @@ namespace NegociaFacil.Application.Services
                 };
         }
 
-        public async Task RegisterUser(RegisterModel registerModel)
+        public async Task RegisterUser(RegisterRequestModel registerModel)
         {
             var userExists = await _userManager.FindByNameAsync(registerModel.UserName);
             if (userExists != null)
@@ -93,7 +93,7 @@ namespace NegociaFacil.Application.Services
                 _notificationDomainService.Add($"{NotificationMessages._00003_Erro_Criar_Usuario} {result}");
         }
 
-        public async Task RegisterUserAdmin(RegisterModel registerModel)
+        public async Task RegisterUserAdmin(RegisterRequestModel registerModel)
         {
             var userExists = await _userManager.FindByNameAsync(registerModel.UserName);
             if (userExists != null)
@@ -114,7 +114,7 @@ namespace NegociaFacil.Application.Services
             await _userManager.AddToRoleAsync(user, CustomRoles.Admin);
         }
 
-        private static ApplicationUser GetApplicationUser(RegisterModel registerModel)
+        private static ApplicationUser GetApplicationUser(RegisterRequestModel registerModel)
         {
             return new ApplicationUser()
             {
