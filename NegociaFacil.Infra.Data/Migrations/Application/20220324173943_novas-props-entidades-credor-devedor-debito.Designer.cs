@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NegociaFacil.Infra.Data.DBContext;
 
 namespace NegociaFacil.Infra.Data.Migrations.Application
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220324173943_novas-props-entidades-credor-devedor-debito")]
+    partial class novaspropsentidadescredordevedordebito
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,8 +25,7 @@ namespace NegociaFacil.Infra.Data.Migrations.Application
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Cnpj")
                         .IsRequired()
@@ -47,10 +48,10 @@ namespace NegociaFacil.Infra.Data.Migrations.Application
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CredorId")
+                    b.Property<Guid?>("CredorId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("DevedorId")
+                    b.Property<Guid?>("DevedorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Observacao")
@@ -76,8 +77,7 @@ namespace NegociaFacil.Infra.Data.Migrations.Application
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Documento")
                         .IsRequired()
@@ -101,15 +101,11 @@ namespace NegociaFacil.Infra.Data.Migrations.Application
                 {
                     b.HasOne("NegociaFacil.Domain.Entities.Credor", "Credor")
                         .WithMany()
-                        .HasForeignKey("CredorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CredorId");
 
                     b.HasOne("NegociaFacil.Domain.Entities.Devedor", "Devedor")
                         .WithMany()
-                        .HasForeignKey("DevedorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DevedorId");
 
                     b.Navigation("Credor");
 

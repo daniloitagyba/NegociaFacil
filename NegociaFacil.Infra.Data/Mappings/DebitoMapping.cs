@@ -17,6 +17,16 @@ namespace NegociaFacil.Infra.Data.Mappings
                      .HasColumnType("decimal(18,4)")
                      .IsRequired();
 
+            builder.Property(e => e.Observacao)
+                 .HasColumnType("varchar(300)")
+                 .HasMaxLength(300);
+
+            builder.Property(e => e.DevedorId)
+                .IsRequired();
+
+            builder.Property(e => e.CredorId)
+                .IsRequired();
+
             builder.ToTable("Debito");
         }
     }
