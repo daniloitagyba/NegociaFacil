@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NegociaFacil.Api.Shared;
-using NegociaFacil.Application.Models.Login;
+using NegociaFacil.Application.Models.User;
 using NegociaFacil.Application.Services;
 using NegociaFacil.Domain.Shared.Notifications;
 using NegociaFacil.Infra.Data.IdentityAuth;
@@ -25,7 +25,7 @@ namespace NegociaFacil.Api.Controllers
         [Authorize(Roles = CustomRoles.Admin)]
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel registerModel)
+        public async Task<IActionResult> Register([FromBody] RegisterRequestModel registerModel)
         {
             await _identityService.RegisterUser(registerModel);
 
@@ -38,7 +38,7 @@ namespace NegociaFacil.Api.Controllers
         [Authorize(Roles = CustomRoles.Admin)]
         [HttpPost]
         [Route("register-admin")]
-        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel registerModel)
+        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterRequestModel registerModel)
         {
             await _identityService.RegisterUserAdmin(registerModel);
 
@@ -51,7 +51,7 @@ namespace NegociaFacil.Api.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel registerModel)
+        public async Task<IActionResult> Login([FromBody] LoginRequestModel registerModel)
         {
             var response = await _identityService.Login(registerModel);
 
