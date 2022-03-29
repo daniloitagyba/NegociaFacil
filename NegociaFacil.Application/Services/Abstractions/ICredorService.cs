@@ -1,9 +1,6 @@
-﻿using NegociaFacil.Application.Models.Credor;
-using NegociaFacil.Domain.Repositories;
+﻿using NegociaFacil.Models.Credor;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NegociaFacil.Application.Services.Abstractions
@@ -13,7 +10,7 @@ namespace NegociaFacil.Application.Services.Abstractions
         Task AddAsync(CredorRequestModel requestModel);
         void Update(CredorRequestModel requestModel);
         void Remove(CredorRequestModel requestModel);
-        Task<CredorViewModel> FindByIdAsync(Guid id);
-        Task<IEnumerable<CredorViewModel>> GetAllAsync();
+        Task<CredorResponseModel> FindByIdAsync(Guid id);
+        Task<IEnumerable<CredorResponseModel>> GetAllAsync();
     }
 }

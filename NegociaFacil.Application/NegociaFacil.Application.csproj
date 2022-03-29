@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\NegociaFacil.Domain\NegociaFacil.Domain.csproj" />
     <ProjectReference Include="..\NegociaFacil.Infra.Data\NegociaFacil.Infra.Data.csproj" />
+    <ProjectReference Include="..\NegociaFacil.Models\NegociaFacil.Models.csproj" />
   </ItemGroup>
 
 </Project>

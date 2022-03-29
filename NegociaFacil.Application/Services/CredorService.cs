@@ -1,10 +1,8 @@
-﻿using NegociaFacil.Application.Models.Credor;
-using NegociaFacil.Application.Services.Abstractions;
+﻿using NegociaFacil.Application.Services.Abstractions;
 using NegociaFacil.Domain.Repositories;
+using NegociaFacil.Models.Credor;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NegociaFacil.Application.Services
@@ -34,12 +32,12 @@ namespace NegociaFacil.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<CredorViewModel>> GetAllAsync()
+        public Task<IEnumerable<CredorResponseModel>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<CredorViewModel> FindByIdAsync(Guid id)
+        public Task<CredorResponseModel> FindByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
