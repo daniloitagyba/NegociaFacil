@@ -12,6 +12,7 @@ using NegociaFacil.Domain.Identity;
 using NegociaFacil.Domain.Repositories;
 using NegociaFacil.Domain.Shared.Notifications;
 using NegociaFacil.Infra.Data.DBContext;
+using NegociaFacil.Infra.Data.Repositories;
 using System;
 using System.Text;
 
@@ -120,7 +121,7 @@ namespace NegociaFacil.Infra.IoC
         {
             services.AddDbContext<IdentityContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<IUnitOfWork, IUnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
 }

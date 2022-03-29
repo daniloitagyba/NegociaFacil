@@ -1,10 +1,6 @@
 ﻿using NegociaFacil.Domain.Repositories;
 using NegociaFacil.Infra.Data.DBContext;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegociaFacil.Infra.Data.Repositories
 {
@@ -20,12 +16,12 @@ namespace NegociaFacil.Infra.Data.Repositories
             Credores = credores;
         }
 
-        private bool _disposedValue;
         public void SaveChanges()
         {
             _context.SaveChanges();
         }
 
+        private bool _disposedValue;
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)
