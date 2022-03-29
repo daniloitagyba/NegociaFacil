@@ -9,6 +9,7 @@ using NegociaFacil.Application.Options.Jwt;
 using NegociaFacil.Application.Services;
 using NegociaFacil.Application.Services.Abstractions;
 using NegociaFacil.Domain.Identity;
+using NegociaFacil.Domain.Repositories;
 using NegociaFacil.Domain.Shared.Notifications;
 using NegociaFacil.Infra.Data.DBContext;
 using System;
@@ -119,6 +120,7 @@ namespace NegociaFacil.Infra.IoC
         {
             services.AddDbContext<IdentityContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IUnitOfWork, IUnitOfWork>();
         }
     }
 }
