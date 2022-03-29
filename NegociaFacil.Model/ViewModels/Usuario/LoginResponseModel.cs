@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NegociaFacil.Application.Models.User
+namespace NegociaFacil.Model.ViewModels.Usuario
 {
-    public class LoginViewModel
+    public class LoginResponseModel
     {
         public string Token { get; set; }
         public DateTime Expiration { get; set; }

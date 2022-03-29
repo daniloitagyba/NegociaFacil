@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NegociaFacil.Application.Models.Credor
+namespace NegociaFacil.Model.ViewModels.Credor
 {
     public class CredorRequestModel
     {
