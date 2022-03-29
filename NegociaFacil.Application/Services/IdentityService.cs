@@ -3,9 +3,11 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NegociaFacil.Application.Models.User;
 using NegociaFacil.Application.Options.Jwt;
+using NegociaFacil.Domain.Identity;
 using NegociaFacil.Domain.Shared.Messages;
 using NegociaFacil.Domain.Shared.Notifications;
 using NegociaFacil.Infra.Data.IdentityAuth;
+using NegociaFacil.Models.User;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -30,10 +32,10 @@ namespace NegociaFacil.Application.Services.Abstractions
             _jwtOptions = jwtOptions.Value;
         }
 
-        public async Task<LoginViewModel> Login(LoginRequestModel loginModel)
+        public async Task<LoginResponseModel> Login(LoginRequestModel requestModel)
         {
-            var user = await _userManager.FindByNameAsync(loginModel.UserName);
-            if (user == null || !await _userManager.CheckPasswordAsync(user, loginModel.Password))
+            var user = await _userManager.FindByNameAsync(requestModel.NomeUsuario);
+            if (user == null || !await _userManager.CheckPasswordAsync(user, requestModel.Senha))
             {
                 _notificationDomainService.Add(NotificationMessages._00001_Usuario_Senha_Invalido);
                 return null;
@@ -50,7 +52,7 @@ namespace NegociaFacil.Application.Services.Abstractions
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SecretKey));
             var token = GetJwtSecurityToken(authClaims, authSigningKey);
 
-            return new LoginViewModel
+            return new LoginResponseModel
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Expiration = token.ValidTo
@@ -77,50 +79,35 @@ namespace NegociaFacil.Application.Services.Abstractions
                 };
         }
 
-        public async Task RegisterUser(RegisterRequestModel registerModel)
+        public async Task RegisterUser(UsuarioRequestModel requestModel)
         {
-            var userExists = await _userManager.FindByNameAsync(registerModel.UserName);
+            var userExists = await _userManager.FindByNameAsync(requestModel.NomeUsuario);
             if (userExists != null)
             {
                 _notificationDomainService.Add(NotificationMessages._00002_Usuario_Existe);
                 return;
             }
 
-            var user = GetApplicationUser(registerModel);
+            var user = GetApplicationUser(requestModel);
 
-            var result = await _userManager.CreateAsync(user, registerModel.Password);
-            if (!result.Succeeded)
-                _notificationDomainService.Add($"{NotificationMessages._00003_Erro_Criar_Usuario} {result}");
-        }
-
-        public async Task RegisterUserAdmin(RegisterRequestModel registerModel)
-        {
-            var userExists = await _userManager.FindByNameAsync(registerModel.UserName);
-            if (userExists != null)
-            {
-                _notificationDomainService.Add(NotificationMessages._00002_Usuario_Existe);
-                return;
-            }
-
-            var user = GetApplicationUser(registerModel);
-
-            var result = await _userManager.CreateAsync(user, registerModel.Password);
+            var result = await _userManager.CreateAsync(user, requestModel.Senha);
             if (!result.Succeeded)
             {
                 _notificationDomainService.Add($"{NotificationMessages._00003_Erro_Criar_Usuario} {result}");
                 return;
             }
 
-            await _userManager.AddToRoleAsync(user, CustomRoles.Admin);
+            if (requestModel.Administrador)
+                await _userManager.AddToRoleAsync(user, CustomRoles.Admin);
         }
 
-        private static ApplicationUser GetApplicationUser(RegisterRequestModel registerModel)
+        private static ApplicationUser GetApplicationUser(UsuarioRequestModel requestModel)
         {
             return new ApplicationUser()
             {
-                Email = registerModel.Email,
+                Email = requestModel.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = registerModel.UserName
+                UserName = requestModel.NomeUsuario
             };
         }
     }

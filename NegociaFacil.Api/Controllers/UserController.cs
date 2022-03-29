@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NegociaFacil.Api.Shared;
-using NegociaFacil.Application.Models.User;
 using NegociaFacil.Application.Services;
+using NegociaFacil.Domain.Identity;
 using NegociaFacil.Domain.Shared.Notifications;
-using NegociaFacil.Infra.Data.IdentityAuth;
+using NegociaFacil.Models.User;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -16,31 +17,18 @@ namespace NegociaFacil.Api.Controllers
     {
         private readonly IIdentityService _identityService;
         public UserController(INotificationDomainService notifications,
-                                      IIdentityService identityService)
+                              IIdentityService identityService)
             : base(notifications: notifications)
         {
-            _identityService = identityService;
+            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
         }
 
         [Authorize(Roles = CustomRoles.Admin)]
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequestModel registerModel)
+        public async Task<IActionResult> Register([FromBody] UsuarioRequestModel requestModel)
         {
-            await _identityService.RegisterUser(registerModel);
-
-            if (!NotificationDomainService.IsValid())
-                return ResponseData(null, HttpStatusCode.PreconditionFailed);
-
-            return ResponseData(null, HttpStatusCode.NoContent);
-        }
-
-        [Authorize(Roles = CustomRoles.Admin)]
-        [HttpPost]
-        [Route("register-admin")]
-        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterRequestModel registerModel)
-        {
-            await _identityService.RegisterUserAdmin(registerModel);
+            await _identityService.RegisterUser(requestModel);
 
             if (!NotificationDomainService.IsValid())
                 return ResponseData(null, HttpStatusCode.PreconditionFailed);
@@ -51,9 +39,9 @@ namespace NegociaFacil.Api.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequestModel registerModel)
+        public async Task<IActionResult> Login([FromBody] LoginRequestModel requestModel)
         {
-            var response = await _identityService.Login(registerModel);
+            var response = await _identityService.Login(requestModel);
 
             if (!NotificationDomainService.IsValid())
                 return ResponseData(null, HttpStatusCode.Unauthorized);
