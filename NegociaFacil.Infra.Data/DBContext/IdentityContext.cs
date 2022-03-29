@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using NegociaFacil.Infra.Data.IdentityAuth;
+using NegociaFacil.Domain.Identity;
 
 namespace NegociaFacil.Infra.Data.DBContext
 {

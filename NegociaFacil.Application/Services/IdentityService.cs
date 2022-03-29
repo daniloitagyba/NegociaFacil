@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using NegociaFacil.Application.Models.User;
 using NegociaFacil.Application.Options.Jwt;
 using NegociaFacil.Domain.Identity;
 using NegociaFacil.Domain.Shared.Messages;
 using NegociaFacil.Domain.Shared.Notifications;
-using NegociaFacil.Infra.Data.IdentityAuth;
 using NegociaFacil.Models.User;
 using System;
 using System.Collections.Generic;
