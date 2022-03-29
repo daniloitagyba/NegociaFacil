@@ -42,10 +42,5 @@ namespace NegociaFacil.Infra.Data.Repositories
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-        ~UnitOfWork()
-        {
-            Dispose(false);
-        }
     }
 }
