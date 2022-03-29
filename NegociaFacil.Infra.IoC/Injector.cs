@@ -122,6 +122,7 @@ namespace NegociaFacil.Infra.IoC
             services.AddDbContext<IdentityContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICredorRepository, CredorRepository>();
         }
     }
 }
