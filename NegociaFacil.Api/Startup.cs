@@ -30,7 +30,6 @@ namespace NegociaFacil.Api
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
 
             Injector.RegisterServices(services, Configuration);
